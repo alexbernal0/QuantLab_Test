@@ -7,7 +7,7 @@ import numpy as np
 # Read Data
 df = pd.read_csv("C://Users//User//Documents//input.csv")
 df.columns=['microsecs','symbol','volume','price']
-df['DollarVolume'] = df['price'] * df['volume']
+df['DollarVolume'] = (df['price'] * df['volume'])/df['volume'].sum()
 
 # Get Unique Symbols and Sort
 symbols = sorted(set(df['symbol']))
@@ -21,6 +21,7 @@ for sym in symbols:
 
         tempdf = df[df['symbol'] == sym]
         tempdf.sort_values(['microsecs'])
+        
         
         if len(tempdf) > 1:
                 max_time = np.nanmax(tempdf['microsecs'] - tempdf['microsecs'].shift(1))
